@@ -2,47 +2,43 @@ package com.ims.app.service;
 
 import java.util.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ims.app.model.Product;
+import com.ims.app.repository.ProductRepository;
 
 @Service
 public class ProductSerivce {
-    
-    private List<Product> products = new ArrayList<>(Arrays.asList(
-			new Product("1", "Soda", 2.25, "Soda Pop", 2),
-			new Product("2", "Red Bull", 3.25, "Energy Drink", 5),
-			new Product("3", "Water", 1.00, "Purified Water", 24)
-		));
 
-    // READ operation
+    @Autowired
+    private ProductRepository productRepository;
+
+    // READ ALL operation
     public List<Product> getAllProducts(){
+        List<Product> products = new ArrayList<>();
+        productRepository.findAll().forEach(products::add);
         return products;
     }
 
     // READ operation by id
     public Product getProduct(String id){
-        return products.stream().filter(product -> product.getId().equals(id)).findFirst().get();
+        return productRepository.findById(id).get();
     }
 
     // POST operation
     public void addProduct(Product product) {
-        products.add(product);
+        productRepository.save(product);
     }
 
     // UPDATE operation
     public void updateProduct(String id, Product product) {
-        for(int i = 0; i < products.size(); i++){
-            Product p = products.get(i);
-            if(p.getId().equals(id)){
-                products.set(i, product);
-                return;
-            }
-        }
+        productRepository.deleteById(id);
+        productRepository.save(product);
     }
 
     // DELETE operation
     public void deleteProduct(String id) {
-        products.removeIf(product -> product.getId().equals(id));
+        productRepository.deleteById(id);
     }
 }

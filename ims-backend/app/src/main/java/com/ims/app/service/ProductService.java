@@ -9,7 +9,7 @@ import com.ims.app.model.Product;
 import com.ims.app.repository.ProductRepository;
 
 @Service
-public class ProductSerivce {
+public class ProductService {
 
     @Autowired
     private ProductRepository productRepository;

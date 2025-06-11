@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile_ims/utils/constant.dart';
 
 class InventoryScreen extends StatefulWidget {
   const InventoryScreen({super.key});
@@ -48,8 +49,9 @@ class _InventoryScreen extends State<InventoryScreen> {
   }
 
   void fetchData() async {
-    var url = Uri.parse('http://10.0.2.2:8080/products');
-    var response = await http.get(url);
+    final url = Constant.baseUrl + 'products';
+    var parseUrl = Uri.parse(url);
+    var response = await http.get(parseUrl);
     if (response.statusCode == 200) {
       print("Data fetched successfully : ${response.body}");
       setState(() {
